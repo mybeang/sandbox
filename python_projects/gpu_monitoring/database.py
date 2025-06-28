@@ -32,7 +32,7 @@ class InfluxDbSdk(object):
                 .time(ts, WritePrecision.NS))
 
     @classmethod
-    def write(cls, data):
+    def write(cls, bulk_data):
         write_options = WriteOptions(batch_size=500,
                                      flush_interval=10_000,
                                      jitter_interval=2_000,
@@ -45,7 +45,10 @@ class InfluxDbSdk(object):
                                    retry_callback=retry,
                                    write_options=write_options)
 
-        points = [cls.reform(data['timestamp'], metric) for metric in data['metrics']]
+        points = []
+        for data in bulk_data:
+            for metric in data['metrics']:
+                points.append(cls.reform(data['timestamp'], metric))
 
         with InfluxDBClient3(host=cls.HOST,
                              write_port_overwrite=8181,
