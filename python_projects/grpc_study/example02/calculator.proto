@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package calculator;
+
+service Calculator {
+  rpc Compute (ComputeRequest) returns (ComputeReply) {}
+}
+
+message ComputeRequest {
+  int32 a = 1;
+  int32 b = 2;
+  Operation op = 3;
+}
+
+enum Operation {
+  ADD = 0;
+  MULTIPLY = 1;
+}
+
+message ComputeReply {
+  int32 result = 1;
+}

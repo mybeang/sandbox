@@ -2,3 +2,4 @@ sentence-transformers
 faiss-cpu
 hf_xet
 llama-cpp-python
+beautifulsoup4
